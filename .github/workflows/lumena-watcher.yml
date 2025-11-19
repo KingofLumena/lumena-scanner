@@ -6,19 +6,24 @@ on:
   pull_request:
     branches: [ "main", "release", "LumenaGate" ]
   schedule:
-    - cron: '0 3 * * 2'  # Tuesday 03:00 UTC
+    - cron: '0 3 * * 2' # Every Tuesday at 03:00 UTC
 
 permissions:
   contents: read
   security-events: write
 
 jobs:
-  lumena-scan:
-    name: Run Lumena Flame Scan
+  lumena_scan:
+    name: 🔥 Run Lumena Flame Scanner
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: 🔍 Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Run Lumena AI Scanner
+      - name: 🛠 Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: 🔥 Run Lumena Flame Scanner
         run: python .lumena/scan.py
