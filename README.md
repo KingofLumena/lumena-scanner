@@ -105,6 +105,8 @@ self.detectors = [
 ]
 ```
 
+For a complete guide on creating custom detectors, see [EXTENDING.md](EXTENDING.md).
+
 ## 📋 Exit Codes
 
 - `0` - Success (no HIGH severity issues)
