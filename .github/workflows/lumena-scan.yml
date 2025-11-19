@@ -1,0 +1,40 @@
+name: Lumena Security Scan
+
+on:
+  push:
+    branches: [ "**" ]
+  pull_request:
+    branches: [ "**" ]
+  workflow_dispatch:
+
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+    name: Lumena Scanner
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      
+      - name: Make scanner executable
+        run: chmod +x .lumena/scan.py
+      
+      - name: Run Lumena Scanner
+        run: python .lumena/scan.py
+        continue-on-error: true
+        id: scan
+      
+      - name: Report Results
+        if: always()
+        run: |
+          if [ ${{ steps.scan.outcome }} == 'failure' ]; then
+            echo "⚠️ Security issues found. Please review the output above."
+            exit 1
+          else
+            echo "✅ No security issues detected."
+          fi
