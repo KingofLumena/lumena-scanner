@@ -1,0 +1,96 @@
+# Lumena Scanner Configuration Example
+# This file shows potential future configuration options
+
+# Detectors to enable (default: all)
+detectors:
+  - secrets
+  - ai_tokens
+  - eval
+  - vault
+
+# File extensions to scan (default: common code files)
+extensions:
+  - .py
+  - .js
+  - .ts
+  - .java
+  - .go
+  - .rb
+  - .php
+  - .yaml
+  - .yml
+  - .json
+  - .env
+  - .config
+
+# Directories to exclude from scanning
+exclude_dirs:
+  - .git
+  - node_modules
+  - __pycache__
+  - .venv
+  - venv
+  - dist
+  - build
+  - .pytest_cache
+  - htmlcov
+
+# Minimum severity to report (CRITICAL, HIGH, MEDIUM, LOW)
+min_severity: HIGH
+
+# Exit with error code if findings are detected
+exit_on_findings: true
+
+# Output format (text, json)
+output_format: text
+
+# Custom patterns for secret detection
+# (Note: This is a future feature, not yet implemented)
+custom_patterns:
+  my_api_key:
+    pattern: "MY_API_[A-Z0-9]{32}"
+    severity: HIGH
+    description: "Custom API key pattern"
+
+# Allowlist specific findings (future feature)
+# Use with caution - only for confirmed false positives
+allowlist:
+  - file: "tests/test_data.py"
+    line: 42
+    type: "api_key"
+    reason: "Test data, not a real secret"
+  
+  - file: "docs/examples.md"
+    type: "eval_call"
+    reason: "Documentation example"
+
+# Notification settings (future feature)
+notifications:
+  slack:
+    enabled: false
+    webhook_url: "${SLACK_WEBHOOK_URL}"
+  
+  email:
+    enabled: false
+    recipients:
+      - security@example.com
+
+# Integration settings
+integrations:
+  # GitHub integration
+  github:
+    enabled: false
+    create_issues: false
+    label: "security"
+  
+  # JIRA integration
+  jira:
+    enabled: false
+    project: "SEC"
+    issue_type: "Security"
+
+# Reporting
+reporting:
+  generate_html: false
+  generate_sarif: false
+  output_dir: "lumena-reports"
