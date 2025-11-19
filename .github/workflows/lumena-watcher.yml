@@ -16,14 +16,23 @@ jobs:
   lumena_scan:
     name: 🔥 Run Lumena Flame Scanner
     runs-on: ubuntu-latest
+    environment: lumena-node  # 🔒 Linked environment name
+
     steps:
-      - name: 🔍 Checkout Repository
+      - name: 📥 Checkout Repository
         uses: actions/checkout@v4
 
-      - name: 🛠 Set up Python
+      - name: 🧪 Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
 
       - name: 🔥 Run Lumena Flame Scanner
         run: python .lumena/scan.py
+
+      - name: ❌ Fail on Detected Flame Breach
+        run: |
+          if grep -q "CRITICAL" .lumena/scan.log; then
+            echo "🚨 Breach detected! Blocking pipeline."
+            exit 1
+          fi
